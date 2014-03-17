@@ -1,0 +1,34 @@
+{
+	"name": "browser.lib",
+	"description": "A collection of JS modules for the browser",
+	"version": "0.0.1",
+	"author": "Thomas Lein <thomaslein@gmail.com>",
+	"dependencies": {
+		"dom.ready": "git://github.com/thomaslein/dom.ready.git#0.0.2"
+	},
+	"devDependencies": {
+		"buddy": "*"
+	},
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/thomaslein/browser.lib.git"
+	},
+	"readme": "README.md",
+	"buddy": {
+		"build": {
+			"js": {
+				"sources": ["node_modules", "!node_modules/buddy"],
+				"targets": [{
+					"input": "index.js",
+					"output": "browser.lib.js",
+					"output_compressed": "browser.lib.min.js"
+				}]
+			}
+		}
+	},
+	"scripts": {
+		"build_min": "buddy build -cL",
+		"build": "buddy build"
+	}
+}
