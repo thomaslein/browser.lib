@@ -1,20 +1,4 @@
 A collection of JS modules for the browser.
 
 Packages the following modules:
-- [util.polyfill](https://github.com/popeindustries/util.polyfill)
-- [util.animate](https://github.com/popeindustries/util.animate)
-- [util.colour](https://github.com/popeindustries/util.colour)
-- [util.easing](https://github.com/popeindustries/util.easing)
-- [util.log](https://github.com/popeindustries/util.log)
-- [util.number](https://github.com/popeindustries/util.number)
-- [util.object](https://github.com/popeindustries/util.object)
-- [dom.classlist](https://github.com/popeindustries/dom.classlist)
-- [dom.css](https://github.com/popeindustries/dom.css)
-- [dom.element](https://github.com/popeindustries/dom.element)
-- [dom.ready](https://github.com/popeindustries/dom.ready)
-- [dom.select](https://github.com/popeindustries/dom.select)
-- [dom.test](https://github.com/popeindustries/dom.test)
-- [env.capabilities](https://github.com/popeindustries/env.capabilities)
-- [env.platform](https://github.com/popeindustries/env.platform)
-- [env.viewport](https://github.com/popeindustries/env.viewport)
-- [events.event](https://github.com/popeindustries/events.event)
+- [dom.ready](https://github.com/thomaslein/dom.ready)
