@@ -1,2 +1,4 @@
 node_modules
 .buddy_filelog
+browser.lib.js
+browser.lib.min.js
