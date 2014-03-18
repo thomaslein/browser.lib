@@ -75,6 +75,10 @@ require.register('dom.ready', function(module, exports, require) {
   
 });
 require.register('browser.lib', function(module, exports, require) {
+  exports.util = {
+  	polyfill: require('util.polyfill')
+  };
+  
   exports.dom = {
   	ready: require('dom.ready')
   };
