@@ -4,7 +4,8 @@
 	"version": "0.0.1",
 	"author": "Thomas Lein <thomaslein@gmail.com>",
 	"dependencies": {
-		"dom.ready": "git://github.com/thomaslein/dom.ready.git#0.0.2"
+		"dom.ready": "git://github.com/thomaslein/dom.ready.git#0.0.2",
+		"util.polyfill": "git://github.com/thomaslein/util.polyfill.git#0.0.2"
 	},
 	"devDependencies": {
 		"buddy": "*"
