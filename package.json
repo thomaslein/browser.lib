@@ -4,7 +4,22 @@
 	"version": "0.0.1",
 	"author": "Thomas Lein <thomaslein@gmail.com>",
 	"dependencies": {
+		"dom.element": "git://github.com/thomaslein/dom.element.git#0.0.2",
+		"dom.classlist": "git://github.com/thomaslein/dom.classlist.git#0.0.2",
 		"dom.ready": "git://github.com/thomaslein/dom.ready.git#0.0.2",
+		"dom.select": "git://github.com/thomaslein/dom.select.git#0.0.2",
+		"dom.style": "git://github.com/thomaslein/dom.style.git#0.0.2",
+		"dom.text": "git://github.com/thomaslein/dom.text.git#0.0.2",
+		"env.capabilities": "git://github.com/thomaslein/env.capabilities.git#0.0.2",
+		"env.platform": "git://github.com/thomaslein/env.platform.git#0.0.2",
+		"env.viewport": "git://github.com/thomaslein/env.viewport.git#0.0.2",
+		"events.event": "git://github.com/thomaslein/events.event.git#0.0.2",
+		"util.animate": "git://github.com/thomaslein/util.animate.git#0.0.2",
+		"util.colour": "git://github.com/thomaslein/util.colour.git#0.0.2",
+		"util.easing": "git://github.com/thomaslein/util.easing.git#0.0.2",
+		"util.identify": "git://github.com/thomaslein/util.identify.git#0.0.2",
+		"util.log": "git://github.com/thomaslein/util.log.git#0.0.2",
+		"util.number": "git://github.com/thomaslein/util.number.git#0.0.2",
 		"util.polyfill": "git://github.com/thomaslein/util.polyfill.git#0.0.2"
 	},
 	"devDependencies": {
