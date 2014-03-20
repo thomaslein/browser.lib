@@ -1,5 +1,5 @@
 A collection of JS modules for the browser.
-
+Based on [popeindustries](https://github.com/popeindustries) collection of js utilities [popeindustries/lib](https://github.com/popeindustries/lib)
 Packages the following modules:
 - [dom.element](https://github.com/thomaslein/dom.element)
 - [dom.classlist](https://github.com/thomaslein/dom.classlist)
