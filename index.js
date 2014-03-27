@@ -24,5 +24,6 @@ exports.util = {
 	easing: require('util.ease'),
 	log: require('util.log'),
 	number: require('util.number'),
-	identify: require('util.identify')
+	identify: require('util.identify'),
+	object: require('util.object')
 };

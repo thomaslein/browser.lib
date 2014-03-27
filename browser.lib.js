@@ -3115,6 +3115,33 @@ require.register('util.number', function(module, exports, require) {
   	return Math.round(value * places) / places;
   };
 });
+require.register('util.ease/lib/cubic', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inCubic = {
+  	js: function(t, b, c, d) {
+  			return c * (t /= d) * t * t + b;
+  		},
+  	css: 'cubic-bezier(0.550, 0.055, 0.675, 0.190)'
+  };
+  
+  exports.outCubic = {
+  	js: function(t, b, c, d) {
+  			return c * ((t = t / d - 1) * t * t + 1) + b;
+  		},
+  	css: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)'
+  };
+  
+  exports.inOutCubic = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * t * t * t + b;
+  			}
+  			return c / 2 * ((t -= 2) * t * t + 2) + b;
+  		}
+  };
+  
+});
 require.register('util.animate', function(module, exports, require) {
   var style = require('dom.style')
   	, identify = require('util.identify')
@@ -3132,7 +3159,7 @@ require.register('util.animate', function(module, exports, require) {
   
   	, FRAME_RATE = 60
   	, DEFAULT_DURATION = 500
-  	, DEFAULT_EASING = require('util.easing/lib/cubic').outCubic
+  	, DEFAULT_EASING = require('util.ease/lib/cubic').outCubic
   	, POOL_SIZE = 10;
   
   module.exports = animate;
@@ -4323,6 +4350,351 @@ require.register('util.colour', function(module, exports, require) {
   };
   
 });
+require.register('util.ease/lib/linear', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.linear = {
+  	js: function(t, b, c, d) {
+  			return c * t / d + b;
+  		},
+  	css: 'cubic-bezier(0.250, 0.250, 0.750, 0.750)'
+  }
+});
+require.register('util.ease/lib/back', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inBack = {
+  	js: function(t, b, c, d) {
+  			if (s != null) {
+  				s = 1.70158;
+  			}
+  			return c * (t /= d) * t * ((s + 1) * t - s) + b;
+  		},
+  	css: 'cubic-bezier(0.600, -0.280, 0.735, 0.045)'
+  };
+  
+  exports.outBack = {
+  	js: function(t, b, c, d) {
+  			if (s != null) {
+  				s = 1.70158;
+  			}
+  			return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+  		},
+  	css: 'cubic-bezier(0.175, 0.885, 0.320, 1.275)'
+  };
+  
+  exports.inOutBack = {
+  	js: function(t, b, c, d) {
+  			if (s != null) {
+  				s = 1.70158;
+  			}
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+  			}
+  			return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+  		},
+  	css: 'cubic-bezier(0.680, -0.550, 0.265, 1.550)'
+  };
+  
+});
+require.register('util.ease/lib/bounce', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inBounce = {
+  	js: function(t, b, c, d) {
+  			return c - exports.outBounce(x, d - t, 0, c, d) + b;
+  		}
+  };
+  
+  exports.outBounce = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d) < (1 / 2.75)) {
+  				return c * (7.5625 * t * t) + b;
+  			} else if (t < (2 / 2.75)) {
+  				return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b;
+  			} else if (t < (2.5 / 2.75)) {
+  				return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b;
+  			} else {
+  				return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
+  			}
+  		}
+  };
+  
+  exports.inOutBounce = {
+  	js: function(t, b, c, d) {
+  			if (t < d / 2) {
+  				return exports.inBounce(x, t * 2, 0, c, d) * 0.5 + b;
+  			}
+  			return exports.outBounce(x, t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b;
+  		}
+  };
+  
+});
+require.register('util.ease/lib/circ', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inCirc = {
+  	js: function(t, b, c, d) {
+  			return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+  		},
+  	css: 'cubic-bezier(0.600, 0.040, 0.980, 0.335)'
+  };
+  
+  exports.outCirc = {
+  	js: function(t, b, c, d) {
+  			return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+  		},
+  	css: 'cubic-bezier(0.075, 0.820, 0.165, 1.000)'
+  };
+  
+  exports.inOutCirc = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d / 2) < 1) {
+  				return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+  			}
+  			return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+  		},
+  	css: 'cubic-bezier(0.785, 0.135, 0.150, 0.860)'
+  };
+  
+});
+require.register('util.ease/lib/elastic', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inElastic = {
+  	js: function(t, b, c, d) {
+  			var a, p, s;
+  			if (t === 0) {
+  				return b;
+  			}
+  			if ((t /= d) === 1) {
+  				return b + c;
+  			}
+  			if (!p) {
+  				p = d * 0.3;
+  			}
+  			if (!a || a < Math.abs(c)) {
+  				a = c;
+  				s = p / 4;
+  			} else {
+  				s = p / (2 * Math.PI) * Math.asin(c / a);
+  			}
+  			return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+  		}
+  };
+  
+  exports.outElastic = {
+  	js: function(t, b, c, d) {
+  			var a, p, s;
+  			if (t === 0) {
+  				return b;
+  			}
+  			if ((t /= d) === 1) {
+  				return b + c;
+  			}
+  			if (!p) {
+  				p = d * 0.3;
+  			}
+  			if (!a || a < Math.abs(c)) {
+  				a = c;
+  				s = p / 4;
+  			} else {
+  				s = p / (2 * Math.PI) * Math.asin(c / a);
+  			}
+  			return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+  		}
+  };
+  
+  exports.inOutElastic = {
+  	js: function(t, b, c, d) {
+  			var a, p, s;
+  			if (t === 0) {
+  				return b;
+  			}
+  			if ((t /= d / 2) === 2) {
+  				return b + c;
+  			}
+  			if (!p) {
+  				p = d * (0.3 * 1.5);
+  			}
+  			if (!a || a < Math.abs(c)) {
+  				a = c;
+  				s = p / 4;
+  			} else {
+  				s = p / (2 * Math.PI) * Math.asin(c / a);
+  			}
+  			if (t < 1) {
+  				return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+  			}
+  			return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
+  		}
+  };
+  
+});
+require.register('util.ease/lib/expo', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inExpo = {
+  	js: function(t, b, c, d) {
+  			if (t === 0) {
+  				return b;
+  			} else {
+  				return c * Math.pow(2, 10 * (t / d - 1)) + b;
+  			}
+  		},
+  	css: 'cubic-bezier(0.950, 0.050, 0.795, 0.035)'
+  };
+  
+  exports.outExpo = {
+  	js: function(t, b, c, d) {
+  			if (t === d) {
+  				return b + c;
+  			} else {
+  				return c * (-Math.pow(2, -10 * t / d) + 1) + b;
+  			}
+  		},
+  	css: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)'
+  };
+  
+  exports.inOutExpo = {
+  	js: function(t, b, c, d) {
+  			if (t === 0) {
+  				return b;
+  			}
+  			if (t === d) {
+  				return b + c;
+  			}
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+  			}
+  			return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+  		},
+  	css: 'cubic-bezier(1.000, 0.000, 0.000, 1.000)'
+  };
+  
+});
+require.register('util.ease/lib/quad', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inQuad = {
+  	js: function(t, b, c, d) {
+  			return c * (t /= d) * t + b;
+  		},
+  	css: 'cubic-bezier(0.550, 0.085, 0.680, 0.530)'
+  };
+  
+  exports.outQuad = {
+  	js: function(t, b, c, d) {
+  			return -c * (t /= d) * (t - 2) + b;
+  		},
+  	css: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)'
+  };
+  
+  exports.inOutQuad = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * t * t + b;
+  			}
+  			return -c / 2 * ((--t) * (t - 2) - 1) + b;
+  		}
+  };
+  
+});
+require.register('util.ease/lib/quart', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inQuart = {
+  	js: function(t, b, c, d) {
+  			return c * (t /= d) * t * t * t + b;
+  		},
+  	css: 'cubic-bezier(0.895, 0.030, 0.685, 0.220)'
+  };
+  
+  exports.outQuart = {
+  	js: function(t, b, c, d) {
+  			return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+  		},
+  	css: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)'
+  };
+  
+  exports.inOutQuart = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * t * t * t * t + b;
+  			}
+  			return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+  		},
+  	css: 'cubic-bezier(0.770, 0.000, 0.175, 1.000)'
+  };
+  
+});
+require.register('util.ease/lib/quint', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inQuint = {
+  	js: function(t, b, c, d) {
+  			return c * (t /= d) * t * t * t * t + b;
+  		},
+  	css: 'cubic-bezier(0.755, 0.050, 0.855, 0.060)'
+  };
+  
+  exports.outQuint = {
+  	js: function(t, b, c, d) {
+  			return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+  		},
+  	css: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)'
+  };
+  
+  exports.inOutQuint = {
+  	js: function(t, b, c, d) {
+  			if ((t /= d / 2) < 1) {
+  				return c / 2 * t * t * t * t * t + b;
+  			}
+  			return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+  		},
+  	css: 'cubic-bezier(0.860, 0.000, 0.070, 1.000)'
+  };
+  
+});
+require.register('util.ease/lib/sine', function(module, exports, require) {
+  // t: current time, b: beginning value, c: change in value, d: duration
+  
+  exports.inQuint = {
+  	js: function(t, b, c, d) {
+  			return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+  		},
+  	css: 'cubic-bezier(0.470, 0.000, 0.745, 0.715)'
+  };
+  
+  exports.outQuint = {
+  	js: function(t, b, c, d) {
+  			return c * Math.sin(t / d * (Math.PI / 2)) + b;
+  		},
+  	css: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)'
+  };
+  
+  exports.inOutQuint = {
+  	js: function(t, b, c, d) {
+  			return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+  		},
+  	css: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+  };
+  
+});
+require.register('util.ease', function(module, exports, require) {
+  // Based on the infamous Penner easing equations, with css equivalents where possible
+  exports.linear = require('util.ease/lib/linear');
+  exports.back = require('util.ease/lib/back');
+  exports.bounce = require('util.ease/lib/bounce');
+  exports.circ = require('util.ease/lib/circ');
+  exports.cubic = require('util.ease/lib/cubic');
+  exports.elastic = require('util.ease/lib/elastic');
+  exports.expo = require('util.ease/lib/expo');
+  exports.quad = require('util.ease/lib/quad');
+  exports.quart = require('util.ease/lib/quart');
+  exports.quint = require('util.ease/lib/quint');
+  exports.sine = require('util.ease/lib/sine');
+});
 require.register('util.log', function(module, exports, require) {
   /**
    * Sets debug environment and enables console.log when true
@@ -4367,6 +4739,70 @@ require.register('util.log', function(module, exports, require) {
   };
   
 });
+require.register('util.object', function(module, exports, require) {
+  /**
+   * Allow 'Child' Constructor to inherit from 'Parent', including 'own' properties
+   * --from CoffeeScript boilerplate--
+   * @param {Function} Child
+   * @param {Function} Parent
+   * @returns {Function}
+   */
+  exports.inherit = function (Child, Parent) {
+  	// Copy 'own' properties from Parent to Child
+  	for (var key in Parent) {
+  		if (Parent.hasOwnProperty(key)) {
+  			Child[key] = Parent[key];
+  		}
+  	}
+  	// Proxy constructor function
+  	function Ctor() {
+  		// Set constructor property to point to Child
+  		this.constructor = Child;
+  		// Store reference to Child's 'super'
+  		this.super = Parent.prototype;
+  	}
+  	// Proxy inherits from Parent's prototype (avoid Parent instance)
+  	Ctor.prototype = Parent.prototype;
+  	// Child inherits from proxy (requires an object, not function)
+  	Child.prototype = new Ctor();
+  	// Store reference to Child's 'super'
+  	Child.super = Parent.prototype;
+  	// Return extended constructor function
+  	return Child;
+  };
+  
+  /**
+   * Determine if 'Child' Constructor inherits from 'Parent'
+   * @param {Function} Child
+   * @param {Function} Parent
+   * @returns {Boolean}
+   */
+  exports.inheritsFrom = function (Child, Parent) {
+  	if (typeof Child == 'function' && typeof Parent == 'function') {
+  		if (Child === Parent) return true;
+  		var descendant = Child.super;
+  		while (descendant) {
+  			if (descendant.constructor) {
+  				if (descendant.constructor === Parent) return true;
+  			}
+  			descendant = descendant.constructor.super;
+  		}
+  	}
+  	return false;
+  };
+  
+  /**
+   * Bind a function 'fn' to a specific 'context'
+   * --from CoffeeScript boilerplate--
+   * @param {Function} fn
+   * @param {Object} context
+   */
+  exports.bind = function (fn, context) {
+  	return function() {
+  		return fn.apply(context, arguments);
+  	};
+  };
+});
 require.register('browser.lib', function(module, exports, require) {
   exports.dom = {
   	classlist: require('dom.classlist'),
@@ -4391,10 +4827,11 @@ require.register('browser.lib', function(module, exports, require) {
   	polyfill: require('util.polyfill'),
   	animate: require('util.animate'),
   	colour: require('util.colour'),
-  	easing: require('util.easing'),
+  	easing: require('util.ease'),
   	log: require('util.log'),
   	number: require('util.number'),
-  	identify: require('util.identify')
+  	identify: require('util.identify'),
+  	object: require('util.object')
   };
   
 });

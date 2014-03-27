@@ -15,6 +15,7 @@
 		"env.viewport": "git://github.com/thomaslein/env.viewport.git#0.0.2",
 		"events.event": "git://github.com/thomaslein/events.event.git#0.0.2",
 		"util.animate": "git://github.com/thomaslein/util.animate.git#0.0.2",
+		"util.object": "git://github.com/thomaslein/util.object.git#0.1.2",
 		"util.colour": "git://github.com/thomaslein/util.colour.git#0.0.2",
 		"util.ease": "git://github.com/thomaslein/util.ease.git#0.0.2",
 		"util.identify": "git://github.com/thomaslein/util.identify.git#0.0.2",
