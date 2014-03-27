@@ -3568,8 +3568,6 @@ require.register('util.animate', function(module, exports, require) {
   
 });
 require.register('dom.element', function(module, exports, require) {
-  // var Element, animate, classList, css, doc, elementFactory, elements, event, id, numberUtils, objectUtils, select, text, win;
-  
   var classList = require('dom.classlist')
   	, select = require('dom.select')
   	, text = require('dom.text')
@@ -3865,7 +3863,7 @@ require.register('dom.element', function(module, exports, require) {
    * @see event.on
    */
   Element.prototype.on = function(type, callback, data) {
-  	event.on(this, type, callback, data);
+  	event.on(this.domElement, type, callback, data);
   	return this;
   };
   
@@ -3873,7 +3871,7 @@ require.register('dom.element', function(module, exports, require) {
    * @see event.off
    */
   Element.prototype.off = function(type, callback) {
-  	event.off(this, type, callback);
+  	event.off(this.domElement, type, callback);
   	return this;
   };
   
@@ -3881,7 +3879,7 @@ require.register('dom.element', function(module, exports, require) {
    * @see event.one
    */
   Element.prototype.one = function(type, callback, data) {
-  	event.one(this, type, callback, data);
+  	event.one(this.domElement, type, callback, data);
   	return this;
   };
   
