@@ -12,7 +12,7 @@ Packages the following modules:
 - [events.event](https://github.com/thomaslein/events.event)
 - [util.animate](https://github.com/thomaslein/util.animate)
 - [util.colour](https://github.com/thomaslein/util.colour)
-- [util.easing](https://github.com/thomaslein/util.easing)
+- [util.ease](https://github.com/thomaslein/util.ease)
 - [util.identify](https://github.com/thomaslein/util.identify)
 - [util.log](https://github.com/thomaslein/util.log)
 - [util.number](https://github.com/thomaslein/util.number)
