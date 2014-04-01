@@ -21,7 +21,8 @@
 		"util.identify": "git://github.com/thomaslein/util.identify.git#0.0.2",
 		"util.log": "git://github.com/thomaslein/util.log.git#0.0.2",
 		"util.number": "git://github.com/thomaslein/util.number.git#0.0.2",
-		"util.polyfill": "git://github.com/thomaslein/util.polyfill.git#0.0.2"
+		"util.polyfill": "git://github.com/thomaslein/util.polyfill.git#0.0.2",
+		"util.svg": "git://github.com/thomaslein/util.svg.git#0.1.0"
 	},
 	"devDependencies": {
 		"buddy": "*"

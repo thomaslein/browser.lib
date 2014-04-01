@@ -25,5 +25,6 @@ exports.util = {
 	log: require('util.log'),
 	number: require('util.number'),
 	identify: require('util.identify'),
-	object: require('util.object')
+	object: require('util.object'),
+	svg: require('util.svg')
 };
