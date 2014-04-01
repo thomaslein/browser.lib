@@ -17,5 +17,6 @@ Packages the following modules:
 - [util.log](https://github.com/thomaslein/util.log)
 - [util.number](https://github.com/thomaslein/util.number)
 - [util.polyfill](https://github.com/thomaslein/util.polyfill)
+- [util.svg](https://github.com/thomaslein/util.svg)
 
 Based on [popeindustries](https://github.com/popeindustries) collection of js utilities [popeindustries/lib](https://github.com/popeindustries/lib)
