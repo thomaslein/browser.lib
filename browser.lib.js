@@ -4203,6 +4203,18 @@ require.register('env.capabilities', function(module, exports, require) {
   	return hasTouch;
   };
   
+  /**
+   * Does platform support inline svg
+   * @returns {Boolean}
+   */
+  exports.hasSVG = function(){
+  	var test = document.createElement('div');
+  	test.innerHTML = '<svg/>';
+  	var hasSVG = (test.firstChild && test.firstChild.namespaceURI) == 'http://www.w3.org/2000/svg';
+  	exports.hasSVG = function(){ return hasSVG; };
+  	return hasSVG;
+  }
+  
 });
 require.register('env.platform', function(module, exports, require) {
   var ua = navigator.userAgent;
