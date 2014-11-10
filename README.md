@@ -18,5 +18,6 @@ Packages the following modules:
 - [util.number](https://github.com/thomaslein/util.number)
 - [util.polyfill](https://github.com/thomaslein/util.polyfill)
 - [util.svg](https://github.com/thomaslein/util.svg)
+- [util.object](https://github.com/thomaslein/util.object)
 
 Based on [popeindustries](https://github.com/popeindustries) collection of js utilities [popeindustries/lib](https://github.com/popeindustries/lib)
