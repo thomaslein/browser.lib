@@ -4,7 +4,7 @@
 	"version": "0.0.2",
 	"author": "Thomas Lein <thomaslein@gmail.com>",
 	"dependencies": {
-		"dom.element": "git://github.com/thomaslein/dom.element.git#0.0.2",
+		"dom.element": "git://github.com/thomaslein/dom.element.git#0.1.0",
 		"dom.classlist": "git://github.com/thomaslein/dom.classlist.git#0.0.2",
 		"dom.ready": "git://github.com/thomaslein/dom.ready.git#0.0.2",
 		"dom.select": "git://github.com/thomaslein/dom.select.git#0.0.2",
