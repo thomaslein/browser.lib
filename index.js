@@ -7,7 +7,7 @@ exports.dom = {
 	text: require('dom.text')
 };
 
-exports.environment = {
+exports.env = {
 	capabilities: require('env.capabilities'),
 	platform: require('env.platform'),
 	viewport: require('env.viewport')
