@@ -3203,21 +3203,21 @@ require.register('util.ease/lib/quint', function(module, exports, require) {
 require.register('util.ease/lib/sine', function(module, exports, require) {
   // t: current time, b: beginning value, c: change in value, d: duration
   
-  exports.inQuint = {
+  exports.inSine = {
   	js: function(t, b, c, d) {
   			return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
   		},
   	css: 'cubic-bezier(0.470, 0.000, 0.745, 0.715)'
   };
   
-  exports.outQuint = {
+  exports.outSine = {
   	js: function(t, b, c, d) {
   			return c * Math.sin(t / d * (Math.PI / 2)) + b;
   		},
   	css: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)'
   };
   
-  exports.inOutQuint = {
+  exports.inOutSine = {
   	js: function(t, b, c, d) {
   			return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
   		},
@@ -3418,7 +3418,7 @@ require.register('browser.lib', function(module, exports, require) {
   	polyfill: require('util.polyfill'),
   	animate: require('util.animate'),
   	colour: require('util.colour'),
-  	easing: require('util.ease'),
+  	ease: require('util.ease'),
   	log: require('util.log'),
   	number: require('util.number'),
   	identify: require('util.identify'),
