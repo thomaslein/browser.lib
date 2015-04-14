@@ -17,7 +17,7 @@
 		"util.animate": "git://github.com/thomaslein/util.animate.git#0.2.0",
 		"util.object": "git://github.com/thomaslein/util.object.git#0.1.2",
 		"util.colour": "git://github.com/thomaslein/util.colour.git#0.0.2",
-		"util.ease": "git://github.com/thomaslein/util.ease.git#0.0.2",
+		"util.ease": "git://github.com/thomaslein/util.ease.git#0.1.0",
 		"util.identify": "git://github.com/thomaslein/util.identify.git#0.0.2",
 		"util.log": "git://github.com/thomaslein/util.log.git#0.0.2",
 		"util.number": "git://github.com/thomaslein/util.number.git#0.0.2",
