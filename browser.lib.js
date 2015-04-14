@@ -1897,12 +1897,7 @@ require.register('util.animate', function(module, exports, require) {
   					this.usingCssTransitions = true;
   				}
   				p.type = 4;
-  				//Handle transform units later
-  				if(isArray(p.end)){
-  					style.setStyle(this.target, prop, p.end);
-  				}else{
-  					style.setStyle(this.target, prop, p.end + p.unit);
-  				}
+  				style.setStyle(this.target, prop, p.end);
   			} else {
   				p.type = 3;
   			}
