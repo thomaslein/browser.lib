@@ -21,7 +21,7 @@ exports.util = {
 	polyfill: require('util.polyfill'),
 	animate: require('util.animate'),
 	colour: require('util.colour'),
-	easing: require('util.ease'),
+	ease: require('util.ease'),
 	log: require('util.log'),
 	number: require('util.number'),
 	identify: require('util.identify'),
