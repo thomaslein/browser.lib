@@ -1549,6 +1549,57 @@ require.register('requestAnimationFrame', function(module, exports, require) {
   }
   
 });
+require.register('util.colour', function(module, exports, require) {
+  /**
+   * Extract colour channels from a colour string (rgb(r,g,b), rrggbb, rgb)
+   * @param {String} colour
+   */
+  exports.toComponent = function(colour) {
+  	// Remove hash and spaces
+  	colour = colour.replace(/[#\s]/g, '');
+  
+  	// rgb(r, g, b)
+  	if (/^rgb/.test(colour)) {
+  		var re = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/;
+  		var channels = re.exec(colour);
+  		return {
+  			r: parseInt(channels[1], 10),
+  			g: parseInt(channels[2], 10),
+  			b: parseInt(channels[3], 10)
+  		};
+  	// #rrggbb
+  	} else if (colour.length === 6) {
+  		re = /^(\w{2})(\w{2})(\w{2})$/;
+  		channels = re.exec(colour);
+  		return {
+  			r: parseInt(channels[1], 16),
+  			g: parseInt(channels[2], 16),
+  			b: parseInt(channels[3], 16)
+  		};
+  	// #rgb
+  	} else if (colour.length === 3) {
+  		re = /^(\w{1})(\w{1})(\w{1})$/;
+  		channels = re.exec(colour);
+  		return {
+  			r: parseInt(channels[1] + channels[1], 16),
+  			g: parseInt(channels[2] + channels[2], 16),
+  			b: parseInt(channels[3] + channels[3], 16)
+  		};
+  	}
+  };
+  
+  /**
+   * Generate rgba(r,g,b,a) colour string
+   * @param {String} colour
+   * @param {Number} alpha
+   */
+  exports.rgba = function(colour, alpha) {
+  	var c;
+  	c = exports.toComponent(colour);
+  	return "rgba(" + c.r + "," + c.g + "," + c.b + "," + alpha + ")";
+  };
+  
+});
 require.register('util.ease/lib/cubic', function(module, exports, require) {
   // t: current time, b: beginning value, c: change in value, d: duration
   
@@ -1583,6 +1634,8 @@ require.register('util.animate', function(module, exports, require) {
   	, isFunction = identify.isFunction
   	, isString = identify.isString
   	, isArray = identify.isArray
+  	, isObject = identify.isObject
+  	, colourUtil = require('util.colour')
   	, win = window
   	, doc = window.document
   
@@ -1706,7 +1759,7 @@ require.register('util.animate', function(module, exports, require) {
    */
   function render (anim, time) {
   	var props = anim.properties
-  		, b, c, callback, callbacks, dur, propObj, value;
+  		, s, e, callback, callbacks, dur, propObj, value;
   
   	anim.elapsed += time;
   	// Make sure total time does not exceed duration
@@ -1729,16 +1782,34 @@ require.register('util.animate', function(module, exports, require) {
   			propObj = props[prop];
   			// All types except css transitions
   			if (propObj.type < 4) {
-  				b = propObj.start;
+  				s = propObj.start;
+  				//Handle arrays for transforms like translate and scale
   				if (isArray(propObj.end)){
+  					var values = [];
   					for (var i = 0; i < propObj.end.length; i++) {
-  						c = propObj.end[i] - b;
-  						value = propObj.current = anim.ease.js(dur, b, c, anim.duration);
+  						e = propObj.end[i] - s;
+  						value = propObj.current = anim.ease.js(dur, s, e, anim.duration);
   						values.push(value);
-  					};
+  					}
+  				//Handle objects for rgb colours
+  				}else if(isObject(propObj.end)){
+  					var r,g,b;
+  					for (var key in propObj.end){
+  						if (propObj.end.hasOwnProperty(key)) {
+           			s = propObj.start[key];
+           			e = Math.abs(propObj.end[key] - s);
+           			if (key === 'r'){
+           				r = propObj.current = anim.ease.js(dur, s, e, anim.duration);
+           			}else if( key === 'g'){
+           				g = propObj.current = anim.ease.js(dur, s, e, anim.duration);
+           			}else if (key == 'b'){
+           				b = propObj.current = anim.ease.js(dur, s, e, anim.duration);
+           			}
+      				}
+  					}
   				}else{
-  					c = propObj.end - b;
-  					value = propObj.current = anim.ease.js(dur, b, c, anim.duration);
+  					e = propObj.end - s;
+  					value = propObj.current = anim.ease.js(dur, s, e, anim.duration);
   				}
   				switch (propObj.type) {
   					case 1:
@@ -1748,8 +1819,12 @@ require.register('util.animate', function(module, exports, require) {
   						anim.target[prop] = value;
   						break;
   					case 3:
+  						//Handle arrays for transforms like translate and scale
   						if (isArray(propObj.end)){
   							style.setStyle(anim.target, prop, values);
+  						//Handle rgb colors
+  						}else if(isObject(propObj.end)){
+  							style.setStyle(anim.target, prop, 'rgb('+Math.ceil(r)+','+Math.ceil(g)+','+Math.ceil(b)+')');
   						}else{
   							style.setStyle(anim.target, prop, "" + value + propObj.unit);
   						}
@@ -1873,12 +1948,20 @@ require.register('util.animate', function(module, exports, require) {
   		} else {
   			current = style.getNumericStyle(this.target, prop);
   			p.start = current[0];
-  			
   			// Use ending unit if a string is passed
   			if (isString(val)) {
   				end = style.parseNumber(val, prop);
   				p.unit = end[1];
   				p.end = end[0];
+  				if (!style.hasTransitions){
+  					// Need to handle colours diffrently with no transitions
+  					// TODO: Handle rgba colours
+  					if (end[1] === 'hex' || end[1] ===  'rgb'){
+  						//Convert colours to component and hex to rgb
+  						p.start = colourUtil.toComponent(current[0]);
+  						p.end = colourUtil.toComponent(end[0]);
+  					}
+  				}
   
   			// Use the current unit if none specified
   			} else {
@@ -2835,57 +2918,6 @@ require.register('env.viewport', function(module, exports, require) {
    */
   exports.getHeight = function() {
   	return document.documentElement.clientHeight;
-  };
-  
-});
-require.register('util.colour', function(module, exports, require) {
-  /**
-   * Extract colour channels from a colour string (rgb(r,g,b), rrggbb, rgb)
-   * @param {String} colour
-   */
-  exports.toComponent = function(colour) {
-  	// Remove hash and spaces
-  	colour = colour.replace(/[#\s]/g, '');
-  
-  	// rgb(r, g, b)
-  	if (/^rgb/.test(colour)) {
-  		var re = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/;
-  		var channels = re.exec(colour);
-  		return {
-  			r: parseInt(channels[1], 10),
-  			g: parseInt(channels[2], 10),
-  			b: parseInt(channels[3], 10)
-  		};
-  	// #rrggbb
-  	} else if (colour.length === 6) {
-  		re = /^(\w{2})(\w{2})(\w{2})$/;
-  		channels = re.exec(colour);
-  		return {
-  			r: parseInt(channels[1], 16),
-  			g: parseInt(channels[2], 16),
-  			b: parseInt(channels[3], 16)
-  		};
-  	// #rgb
-  	} else if (colour.length === 3) {
-  		re = /^(\w{1})(\w{1})(\w{1})$/;
-  		channels = re.exec(colour);
-  		return {
-  			r: parseInt(channels[1] + channels[1], 16),
-  			g: parseInt(channels[2] + channels[2], 16),
-  			b: parseInt(channels[3] + channels[3], 16)
-  		};
-  	}
-  };
-  
-  /**
-   * Generate rgba(r,g,b,a) colour string
-   * @param {String} colour
-   * @param {Number} alpha
-   */
-  exports.rgba = function(colour, alpha) {
-  	var c;
-  	c = exports.toComponent(colour);
-  	return "rgba(" + c.r + "," + c.g + "," + c.b + "," + alpha + ")";
   };
   
 });
